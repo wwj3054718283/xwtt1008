@@ -2,6 +2,7 @@
   <div id="app">
     <h1>头条</h1>
     <div class="box iconfont icon-dianzan2"></div>
+    <van-button round type="primary">讨厌</van-button>
     <router-view />
   </div>
 </template>
