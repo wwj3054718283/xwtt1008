@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <h1>头条</h1>
+    <div class="box iconfont icon-dianzan2"></div>
     <router-view />
   </div>
 </template>
