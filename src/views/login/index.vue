@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user.js';
 export default {
     name: '',
     props: {},
@@ -65,23 +66,45 @@ export default {
                         tirrger: 'blur',
                     },
                     {
-                        pattern:/^1[3456789]\d{9}$/,
-                        message:'输入手机号格式错误',
-                        tirrger:'blur'
-                    }
+                        pattern: /^1[3456789]\d{9}$/,
+                        message: '输入手机号格式错误',
+                        tirrger: 'blur',
+                    },
                 ],
-                code:[
+                code: [
                     {
-                        pattern:/^\d{6}$/,
-                        message:'输入验证码格式错误',
-                        tirrger:'blur'
-                    }
-                ]
+                        pattern: /^\d{6}$/,
+                        message: '输入验证码格式错误',
+                        tirrger: 'blur',
+                    },
+                ],
             },
         };
     },
     methods: {
-        onSubmit() {},
+        async onSubmit() {
+            // 1.轻提示 登录进行中
+            this.$toast.loading({
+                duration: 0, // 持续展示 toast
+                message: '加载中...',
+                forbidClick: true, // 是否禁止背景点击
+            });
+            try {
+                // 2.发起登录 请求
+                let {data:res} = await login(this.user.mobile, this.user.code);
+                console.log(res);
+                // 3.轻提示 登录成功
+                this.$toast.success('登录成功咯~');
+                // 4.将 token保存到本地 和 vuex仓库
+                this.$store.commit('setUserToken', res.data)
+                // 5.路由前进 跳转到#/my组件
+                // this.$router.push('/my')
+            } catch (error) {
+                console.log(error);
+                // 6.轻提示 登录失败
+                this.$toast.fail('登录失败咯~');
+            }
+        },
     },
     mounted() {},
     watch: {},
