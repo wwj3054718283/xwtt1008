@@ -15,7 +15,6 @@
                 <i slot="left-icon" class="iconfont icon-shouji"></i>
             </van-field>
 
-            <!-- 验证码输入框 -->
             <van-field
                 v-model="user.code"
                 :rules="userRules.code"
@@ -37,9 +36,9 @@
                     <!-- 发送验证码按钮 -->
                     <van-button
                         v-else
-                        native-type="button"
                         class="send-sms-btn"
                         round
+                        native-type="button"
                         size="small"
                         type="default"
                         @click="sendSms"
@@ -59,7 +58,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user.js';
+import { login, sendSMS } from '@/api/user.js';
 export default {
     name: '',
     props: {},
@@ -71,9 +70,9 @@ export default {
                 mobile: '',
                 // 验证码
                 code: 246810,
-                time: 60 * 1000,
-                isShowCount: false,
             },
+            time: 60 * 1000,
+            isShowCount: false,
             userRules: {
                 mobile: [
                     {
@@ -133,6 +132,16 @@ export default {
             } catch (error) {
                 // 校验失败，直接Return，后面代码就不执行了！
                 return console.log('校验失败了哦~！');
+            }
+
+            this.isShowCount = true;
+            // 2.调用 短信验证码 接口
+            try {
+                await sendSMS(this.user.mobile);
+                this.$toast.success('发送短信验证码成功~');
+            } catch (error) {
+                this.$toast.fail('发送短信验证码失败~~！');
+                console.log('发送短信验证码失败~~！', error.message);
             }
         },
     },

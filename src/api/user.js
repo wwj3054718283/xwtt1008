@@ -10,3 +10,12 @@ export const login = function(mobile,code){
         }
     })
 }
+export const sendSMS = (mobile)=>{
+    return axios({
+        method:'get',
+        url:'/v1_0/sms/codes/:mobile',
+        prams:{
+            mobile
+        }
+    })
+}
