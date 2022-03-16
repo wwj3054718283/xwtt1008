@@ -1,19 +1,29 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import Home from '../views/Home.vue';
-import Login from '@/views/login/index.vue'
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    component: Login,
-  },
+    {
+        path: '/login',
+        component: ()=>import('@/views/login/index.vue'),
+    },
+    {
+      path: '/',
+      component: ()=>import('@/views/layout/index.vue'),
+      children:[
+        {
+            path: '', // 默认子路由
+            component: ()=>import('@/views/home/index.vue'),
+        },
+        {
+            path: '/my',
+            component: ()=>import('@/views/my/index.vue'),
+        },
+      ]
+    },
+
 ];
 
 const router = new VueRouter({
