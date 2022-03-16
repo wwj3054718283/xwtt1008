@@ -115,7 +115,7 @@ export default {
                 // 4.将 token保存到本地 和 vuex仓库
                 this.$store.commit('setUserToken', res.data);
                 // 5.路由前进 跳转到#/my组件
-                this.$router.push('/my')
+                this.$router.push('/')
             } catch (error) {
                 console.log(error);
                 // 6.轻提示 登录失败
