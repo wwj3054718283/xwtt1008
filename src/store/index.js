@@ -1,17 +1,13 @@
+import { setItem } from '@/utils/storage.js';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {setItem} from '@/utils/storage.js'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     // 仓库存储器
     state: {
-        user: {
-            //   a.保存token
-            token: null,
-            refresh_token: null
-        }
+        user: null
     },
     mutations: {
         // 1.将 更新后 token 保存到 仓库user中

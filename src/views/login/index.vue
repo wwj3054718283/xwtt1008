@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <!-- 标题导航栏 -->
-        <van-nav-bar title="登录" left-arrow />
+        <van-nav-bar title="登录" left-arrow @click-left="backJump" />
 
         <!-- 登录表单 -->
         <van-form @submit="onSubmit" ref="loginForm">
@@ -114,7 +114,7 @@ export default {
                 // 4.将 token保存到本地 和 vuex仓库
                 this.$store.commit('setUserToken', res.data);
                 // 5.路由前进 跳转到#/my组件
-                this.$router.push('/my')
+                this.$router.back();
             } catch (error) {
                 console.log(error);
                 // 6.轻提示 登录失败
@@ -142,6 +142,11 @@ export default {
                 this.$toast.fail('发送短信验证码失败~~！');
                 console.log('发送短信验证码失败~~！', error.message);
             }
+        },
+
+        // 后退按钮----------------
+        backJump() {
+            this.$router.back()
         },
     },
     mounted() {},
