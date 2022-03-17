@@ -109,6 +109,7 @@ export default {
                     this.user.mobile,
                     this.user.code
                 );
+                console.log(res);
                 // 3.轻提示 登录成功
                 this.$toast.success('登录成功咯~');
                 // 4.将 token保存到本地 和 vuex仓库
@@ -116,7 +117,7 @@ export default {
                 // 5.路由前进 跳转到#/my组件
                 this.$router.back();
             } catch (error) {
-                console.log(error);
+                console.log('出错啦:',error.message);
                 // 6.轻提示 登录失败
                 this.$toast.fail('登录失败咯~');
             }

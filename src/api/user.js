@@ -23,10 +23,10 @@ export const sendSMS = (mobile)=>{
 }
 
 // 3. 获取 用户数据
-export const getUsreInfo = (usrToken)=>{
+export const getUsreInfo = ()=>{
     return axios({
         method:'get',
         url:'/v1_0/user',
-       headers:{'Authorization':'Bearer '+usrToken}
+    //    headers:{'Authorization':'Bearer '+usrToken}
     })
 }
