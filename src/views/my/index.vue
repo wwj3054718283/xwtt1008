@@ -22,19 +22,19 @@
             <!-- 粉丝、关注 -->
             <div class="data">
                 <div class="data-item">
-                    <span>90</span>
+                    <span>{{userInfo.art_count}}</span>
                     <span>头条</span>
                 </div>
                 <div class="data-item">
-                    <span>90</span>
+                    <span>{{userInfo.follow_count}}</span>
                     <span>关注</span>
                 </div>
                 <div class="data-item">
-                    <span>90</span>
+                    <span>{{userInfo.fans_count}}</span>
                     <span>粉丝</span>
                 </div>
                 <div class="data-item">
-                    <span>90</span>
+                    <span>{{userInfo.like_count}}</span>
                     <span>获赞</span>
                 </div>
             </div>
@@ -81,28 +81,46 @@
 // 导入 vuex 的 state映射方法，用来 将 vuex.state里的属性 映射成 当前组件的 计算属性，
 // 以便于组件中访问 --> $store.state.user -> user
 import { mapState } from 'vuex';
+// 导入 获取用户数据 方法
+import { getUsreInfo } from '@/api/user.js';
 export default {
     name: 'my',
     props: {},
     data() {
-        return {};
+        return {
+            userInfo:[]
+        };
     },
-    created() {},
+    async created() {
+        // 1.如果仓库中有用户信息 则发送请求
+        if(this.user){
+            try {
+                const {data:res} = await getUsreInfo(this.user.token)
+                this.userInfo = res.data
+                console.log(res);
+            } catch (error) {
+                console.log('出错啦：',error);
+            }
+        }
+    },
     methods: {
         // 点击 退出 登录
-        logout(){
-            this.$dialog.confirm({
-                title:'系统提示：）',
-                message:'确认退出？'
-            }).then(()=>{
-                // 删除 vuex仓库 和 LocalStorage 里 token
-                this.$store.commit('setUserToken', null)
-                // 退出提示
-                this.$toast.success('退出成功~！')
-            }).catch(()=>{
-                console.log('点击取消');
-            })
-        }
+        logout() {
+            this.$dialog
+                .confirm({
+                    title: '系统提示：）',
+                    message: '确认退出？',
+                })
+                .then(() => {
+                    // 删除 vuex仓库 和 LocalStorage 里 token
+                    this.$store.commit('setUserToken', null);
+                    // 退出提示
+                    this.$toast.success('退出成功~！');
+                })
+                .catch(() => {
+                    console.log('点击取消');
+                });
+        },
     },
     computed: {
         // 将 vuex仓库state中的 user 映射成 一个 计算属性
