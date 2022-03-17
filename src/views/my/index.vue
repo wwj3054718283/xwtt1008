@@ -82,7 +82,7 @@
 // 以便于组件中访问 --> $store.state.user -> user
 import { mapState } from 'vuex';
 // 导入 获取用户数据 方法
-import { getUsreInfo } from '@/api/user.js';
+import { getUserInfo } from '@/api/user.js';
 export default {
     name: 'my',
     props: {},
@@ -95,7 +95,7 @@ export default {
         // 1.如果仓库中有用户信息 则发送请求
         if(this.user){
             try {
-                const {data:res} = await getUsreInfo(this.user.token)
+                const {data:res} = await getUserInfo(this.user.token)
                 this.userInfo = res.data
                 console.log(res);
             } catch (error) {
