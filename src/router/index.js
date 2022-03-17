@@ -6,6 +6,10 @@ Vue.use(VueRouter);
 
 const routes = [
     {
+        path: '/login',
+        component: () => import('@/views/login/index.vue')
+    },
+    {
         path: '/layout',
         component: () => import('@/views/layout/index.vue'),
         children: [

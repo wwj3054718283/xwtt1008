@@ -1,7 +1,7 @@
 <template>
     <div class="my-container">
         <!-- 已经登录的头部 -->
-        <div v-if="user" class="userInfo login_header">
+        <div v-if="user.token" class="userInfo login_header">
             <!-- 基本信息 -->
             <div class="base">
                 <div class="left">
@@ -67,7 +67,7 @@
         <van-cell title="用户反馈" is-link url="" />
         <van-cell title="小智同学" is-link url="" />
         <van-cell title="系统设置" is-link url="" />
-        <van-cell v-if="user" class="logout-cell" title="退出登录" center />
+        <van-cell v-if="user.token" class="logout-cell" title="退出登录" center />
     </div>
 </template>
 
