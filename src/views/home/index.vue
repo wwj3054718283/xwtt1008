@@ -15,7 +15,9 @@
 
         <!-- 2.中部 tabs频道列表 -->
         <van-tabs class="channel-tabs" v-model="active" animated swipeable>
-            <van-tab v-for="chan in channels" :key="chan.id" :title="chan.name">{{chan.name}}</van-tab>
+            <van-tab v-for="chan in channels" :key="chan.id" :title="chan.name">
+                <ArticleList :channel="chan" />
+            </van-tab>
             <!-- 渐变分隔条 -->
             <div slot="nav-right" class="placeholder"></div>
             <!-- 汉堡按钮 -->
@@ -29,20 +31,23 @@
 </template>
 
 <script>
+// 导入 请求频道列表 方法
 import { getUserChannels } from '@/api/user.js';
+// 导入 文章列表 组件
+import ArticleList from './components/artilce-list.vue';
 export default {
     name: '',
     props: {},
-    components: {},
+    components: { ArticleList },
     data() {
         return {
             active: 0,
-            channels:[]
+            channels: [],
         };
     },
     async created() {
-        const {data:res} = await getUserChannels()
-        this.channels = res.data.channels
+        const { data: res } = await getUserChannels();
+        this.channels = res.data.channels;
     },
     methods: {},
     mounted() {},
