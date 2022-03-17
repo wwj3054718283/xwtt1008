@@ -1,7 +1,7 @@
 <template>
     <div class="my-container">
         <!-- 已经登录的头部 -->
-        <div v-if="user.token" class="userInfo login_header">
+        <div v-if="user" class="userInfo login_header">
             <!-- 基本信息 -->
             <div class="base">
                 <div class="left">
@@ -41,12 +41,12 @@
         </div>
 
         <!-- 未登录头部 -->
-        <div v-else class="header">
-            <img
-                class="mobile-img"
-                src="~@/assets/mobile.png"
-                @click="$router.push('/login')"
-            />
+        <div v-else class="header not-login">
+            <!-- 点击 登录注册 按钮，通过 路由管理器 切换到 登录组件 -->
+            <div class="login-btn" @click="$router.push('/login')">
+                <img class="mobile-img" src="~@/assets/mobile.png" />
+                <span class="text">登录 / 注册</span>
+            </div>
         </div>
 
         <!-- 宫格按钮 -->
@@ -67,7 +67,13 @@
         <van-cell title="用户反馈" is-link url="" />
         <van-cell title="小智同学" is-link url="" />
         <van-cell title="系统设置" is-link url="" />
-        <van-cell v-if="user.token" class="logout-cell" title="退出登录" center />
+        <van-cell
+            v-if="user"
+            @click="logout"
+            class="logout-cell"
+            title="退出登录"
+            center
+        />
     </div>
 </template>
 
@@ -82,7 +88,22 @@ export default {
         return {};
     },
     created() {},
-    methods: {},
+    methods: {
+        // 点击 退出 登录
+        logout(){
+            this.$dialog.confirm({
+                title:'系统提示：）',
+                message:'确认退出？'
+            }).then(()=>{
+                // 删除 vuex仓库 和 LocalStorage 里 token
+                this.$store.commit('setUserToken', null)
+                // 退出提示
+                this.$toast.success('退出成功~！')
+            }).catch(()=>{
+                console.log('点击取消');
+            })
+        }
+    },
     computed: {
         // 将 vuex仓库state中的 user 映射成 一个 计算属性
         ...mapState(['user']),
@@ -112,6 +133,24 @@ export default {
         height: 401px;
         background: url('~@/assets/banner.png') no-repeat;
         background-size: cover;
+    }
+    // 未登录头部
+    .not-login {
+        .login-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .mobile-img {
+                width: 132px;
+                height: 132px;
+                margin-bottom: 15px;
+            }
+            .text {
+                font-size: 28px;
+                color: #fff;
+            }
+        }
     }
     // 已登录头部
     .userInfo {

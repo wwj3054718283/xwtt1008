@@ -109,7 +109,6 @@ export default {
                     this.user.mobile,
                     this.user.code
                 );
-                console.log(res);
                 // 3.轻提示 登录成功
                 this.$toast.success('登录成功咯~');
                 // 4.将 token保存到本地 和 vuex仓库
